@@ -21,7 +21,8 @@ class User(db.Model):
 def create_tables():
     db.create_all()
 
-@app.route('/register', methods=['POST'])
+# Updated API endpoints with /api prefix
+@app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
     username = data['username']
@@ -37,7 +38,7 @@ def register():
 
     return jsonify({"message": "User created successfully"}), 201
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data['username']
@@ -50,7 +51,7 @@ def login():
 
     return jsonify({"message": "Login successful"}), 200
 
-@app.route('/update_leaderboard', methods=['POST'])
+@app.route('/api/update_leaderboard', methods=['POST'])
 def update_leaderboard():
     data = request.get_json()
     username = data['username']
@@ -62,7 +63,7 @@ def update_leaderboard():
         return jsonify({"message": "Leaderboard updated"}), 200
     return jsonify({"message": "User not found"}), 404
 
-@app.route('/leaderboard', methods=['GET'])
+@app.route('/api/leaderboard', methods=['GET'])
 def leaderboard():
     users = User.query.order_by(User.wins.desc()).all()
     leaderboard = [{"username": user.username, "wins": user.wins} for user in users]
